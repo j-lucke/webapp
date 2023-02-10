@@ -1,8 +1,93 @@
+button {
+  width: 80px;
+  height: 30px;
+  border-radius: 20px;
+  border: none;
+  align-self: center;
+  justify-self: center;
+  font-size: 15px;
+}
 
+.card{
+  display: flex;
+  flex-direction: row;
+  border: 3px solid gray;
+  margin: 10px;
+  border-radius: 20px;
+  width: auto;
+}
+
+.name-plate {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 600px;
+}
+
+.name{
+  font-size: 30px;
+  padding: 10px;
+  align-self: center;
+
+}
+
+.handle{
+  padding: 20px;
+  text-justify: center;
+  align-self: center;
+}
+
+.followers{
+  text-justify: center;
+  padding: 10px;
+  align-self: center;
+}
 
 .centered {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 15%;
+  left: 90%;
   transform: translate(-50%, -50%);
+}
+
+#stage {
+  display: flex;
+  flex-direction: column;
+}
+
+#full-list {
+  grid-column-start: -2;
+}
+
+/*
+#nav-bar{
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  background-color: blue;
+  display: grid;
+  grid-template-columns: 100px 100px 100px 1fr 100px;
+  justify-content: start;
+}
+*/
+
+#add {
+  grid-column-start: 1;
+}
+
+#remove {
+  grid-column-start: 2;
+}
+
+#clear {
+  grid-column-start: 3;
+}
+
+#list-all {
+  grid-column-start: -2;
+  align-self: center;
 }
