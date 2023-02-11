@@ -1,5 +1,6 @@
 import Chart from 'chart.js/auto'
 
+//---------------------------------------------------------
 //----------  HTML elements -------------------------------
 //---------------------------------------------------------
 
@@ -10,16 +11,15 @@ const listAll = document.getElementById('list-all');
 const stage = document.getElementById('stage');
 const fullList = document.createElement('ol');
 
-const CARD_SIZE = 200;
 
-//--------------------------------------------------------
+//---------------------------------------------------------
 //------------ global variables ---------------------------
 //---------------------------------------------------------
 
-let i;
-let list = [];
-let listNodes = [];
-let records = [];
+let i;                 // for loops in eventListeners
+let list = [];		   // players on display
+let listNodes = [];	   // html elements. corresponds to list	
+let masterList = [];   // list is a subset of masterList
 
 //---------------------------------------------------------
 //---------------- utilities ------------------------------
@@ -42,7 +42,6 @@ function dateFromLaunch(d) {
 	const day = new Date(launch.getTime() + msecSinceLaunch);	
 	return `${day.getMonth()+1}-${day.getDate()}`;
 }
-
 
 function filterInfo(data, x) {
 	const dx = data.length / x;
@@ -116,7 +115,6 @@ async function createGraph(myMan) {
 	.then(cleanRecord);
 
 	const graph = document.createElement('canvas');
-	console.log(record.bio);
 	new Chart(
 		graph,
 		{
@@ -142,7 +140,6 @@ async function createGraph(myMan) {
 			}
 		}
 	);
-	console.log(graph);
 	return graph;
 }
 
@@ -172,7 +169,6 @@ function removePlayer(player) {
 			list.splice(i, 1);
 			listNodes[i].remove();
 			listNodes.splice(i, 1);
-			records.splice(i, 1);
 		}
 	}
 }
@@ -181,19 +177,16 @@ function removePlayer(player) {
 //---------------------------------------------------------
 //--------  load master list of players -------------------
 //---- in order of twitter followers (descending) ---------
+//---------------------------------------------------------
 
-let masterList = [];
 const masterListRequest = new XMLHttpRequest();
-
 masterListRequest.onload = function() {
 	const tempList = JSON.parse(masterListRequest.response);
 	tempList.forEach(x => {
 		const y = Object.assign( {}, x);
 		masterList.push( y );
 	});
-	console.log(masterList);
 }
-
 masterListRequest.open('GET', 'master', false);
 masterListRequest.send();
 
@@ -213,12 +206,10 @@ stage.appendChild(fullList);
 
 //---------------------------------------------------------
 //-------- manage stage list ------------------------------
-
+//---------------------------------------------------------
 
 
 listAll.addEventListener('click', () => {
-	console.log('list all');
-	console.log(fullList.style.display);
 	if (fullList.style.display == 'none')
 		fullList.style.display = 'block';
 	else
@@ -250,7 +241,6 @@ clear.addEventListener('click', () => {
 	for (i = max-1; i >= 0; i--) {
 		listNodes[i].remove();
 		list.pop();
-		records.pop();
 		listNodes.pop();
 	}
 });
