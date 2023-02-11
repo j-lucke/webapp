@@ -1,0 +1,81 @@
+button {
+  width: 80px;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+  place-self: center;
+  font-size: 15px;
+}
+
+.card {
+  width: auto;
+  border: 3px solid gray;
+  border-radius: 20px;
+  flex-direction: row;
+  margin: 10px;
+  display: flex;
+}
+
+.name-plate {
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  display: flex;
+}
+
+.wrapper {
+  width: 600px;
+}
+
+.name {
+  align-self: center;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.handle {
+  text-justify: center;
+  align-self: center;
+  padding: 20px;
+}
+
+.followers {
+  text-justify: center;
+  align-self: center;
+  padding: 10px;
+}
+
+.centered {
+  position: fixed;
+  top: 15%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+}
+
+#stage {
+  flex-direction: column;
+  display: flex;
+}
+
+#full-list {
+  grid-column-start: -2;
+}
+
+#add {
+  grid-column-start: 1;
+}
+
+#remove {
+  grid-column-start: 2;
+}
+
+#clear {
+  grid-column-start: 3;
+}
+
+#list-all {
+  grid-column-start: -2;
+  align-self: center;
+}
+
+/*# sourceMappingURL=index.e7612b8e.css.map */

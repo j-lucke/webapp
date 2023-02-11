@@ -115,7 +115,7 @@ async function createGraph(myMan) {
 	.then(response => response.json())
 	.then(cleanRecord);
 
-	graph = document.createElement('canvas');
+	const graph = document.createElement('canvas');
 	console.log(record.bio);
 	new Chart(
 		graph,
@@ -159,7 +159,7 @@ async function loadPlayer(player) {
 	const chart = await createGraph(player);
 	const graphWrapper = document.createElement('div');
 	graphWrapper.setAttribute('class', 'wrapper');
-	graphWrapper.appendChild(graph);
+	graphWrapper.appendChild(chart);
 	newNode.appendChild(graphWrapper);
 
 	stage.appendChild(newNode);
