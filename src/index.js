@@ -10,6 +10,7 @@ const clear = document.getElementById('clear');
 const listAll = document.getElementById('list-all');
 const stage = document.getElementById('stage');
 const fullList = document.createElement('ol');
+const namesList = document.createElement('ul');
 
 
 //---------------------------------------------------------
@@ -20,6 +21,8 @@ let i;                 // for loops in eventListeners
 let list = [];		   // players on display
 let listNodes = [];	   // html elements. corresponds to list	
 let masterList = [];   // list is a subset of masterList
+let alphaList = [];    // alphabetical, excludes null
+let names = [];        // html nodes for namesList
 
 //---------------------------------------------------------
 //---------------- utilities ------------------------------
@@ -177,6 +180,7 @@ function removePlayer(player) {
 //---------------------------------------------------------
 //--------  load master list of players -------------------
 //---- in order of twitter followers (descending) ---------
+//---------and populate alphaList of not-null -------------
 //---------------------------------------------------------
 
 const masterListRequest = new XMLHttpRequest();
@@ -186,6 +190,26 @@ masterListRequest.onload = function() {
 		const y = Object.assign( {}, x);
 		masterList.push( y );
 	});
+	masterList.forEach( x => {
+		if (x.twitter_name != null) 
+			alphaList.push(x) 
+	});
+	alphaList.sort((a,b) => {
+		if (a.last_name.toUpperCase() < b.last_name.toUpperCase())
+			return -1;
+		else
+			return 1;
+	})
+	let listNum = 0;
+	alphaList.forEach(x => {
+		const temp = document.createElement('li');
+		temp.innerHTML = `${x.first_name} ${x.last_name}`;
+		temp.id = listNum++;
+		names.push(temp);
+		namesList.appendChild(temp);
+	});
+	namesList.style.display = 'none';
+	add.appendChild(namesList);
 }
 masterListRequest.open('GET', 'master', false);
 masterListRequest.send();
@@ -203,11 +227,11 @@ masterList.forEach( rec => {
 fullList.style.display = 'none';
 stage.appendChild(fullList);
 
-
 //---------------------------------------------------------
 //-------- manage stage list ------------------------------
 //---------------------------------------------------------
 
+let namesShowing = false;
 
 listAll.addEventListener('click', () => {
 	if (fullList.style.display == 'none')
@@ -216,6 +240,7 @@ listAll.addEventListener('click', () => {
 		fullList.style.display = 'none';
 });
 
+/*
 add.addEventListener('click', () => {
 	const names = prompt('add who?').split(' ');
 	masterList.forEach( p => {
@@ -224,6 +249,19 @@ add.addEventListener('click', () => {
 			loadPlayer(p)
 		}
 	});
+});
+*/
+
+add.addEventListener('click', () => {
+	console.log('add');
+	if (!namesShowing) {
+		namesShowing = true;
+		namesList.style.display = 'block';
+	}
+	else{
+		namesShowing = false;
+		namesList.style.display = 'none';
+	}
 });
 
 remove.addEventListener('click', () => {
@@ -243,4 +281,12 @@ clear.addEventListener('click', () => {
 		list.pop();
 		listNodes.pop();
 	}
+});
+
+namesList.addEventListener('click', (e) => {
+	console.log(e.target);
+	console.log(alphaList[e.target.id]);
+
+	loadPlayer(alphaList[e.target.id]);
+	needReset = true;
 });

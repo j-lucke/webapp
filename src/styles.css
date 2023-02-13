@@ -8,6 +8,24 @@ button {
   font-size: 15px;
 }
 
+ul {
+  width: 200px;
+  height: 300px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  list-style-type: none;
+  text-align: left;
+  overflow: scroll;
+  padding: 0px;
+  position: relative;
+  z-index: 9;
+  background-color: white;
+}
+
+li:hover{
+  background-color: gray;
+}
+
 .card{
   display: flex;
   flex-direction: row;
@@ -15,6 +33,7 @@ button {
   margin: 10px;
   border-radius: 20px;
   width: auto;
+  position: relative;
 }
 
 .name-plate {
@@ -52,6 +71,7 @@ button {
   top: 15%;
   left: 90%;
   transform: translate(-50%, -50%);
+  z-index: 3;
 }
 
 #stage {
