@@ -1,0 +1,101 @@
+button {
+  width: 80px;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+  place-self: center;
+  font-size: 15px;
+}
+
+ul {
+  width: 200px;
+  height: 300px;
+  text-align: left;
+  z-index: 9;
+  background-color: #fff;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0;
+  list-style-type: none;
+  position: relative;
+  overflow: scroll;
+}
+
+li:hover {
+  background-color: gray;
+}
+
+.card {
+  width: auto;
+  border: 3px solid gray;
+  border-radius: 20px;
+  flex-direction: row;
+  margin: 10px;
+  display: flex;
+  position: relative;
+}
+
+.name-plate {
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  display: flex;
+}
+
+.wrapper {
+  width: 600px;
+}
+
+.name {
+  align-self: center;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.handle {
+  text-justify: center;
+  align-self: center;
+  padding: 20px;
+}
+
+.followers {
+  text-justify: center;
+  align-self: center;
+  padding: 10px;
+}
+
+.centered {
+  z-index: 3;
+  position: fixed;
+  top: 15%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+}
+
+#stage {
+  flex-direction: column;
+  display: flex;
+}
+
+#full-list {
+  grid-column-start: -2;
+}
+
+#add {
+  grid-column-start: 1;
+}
+
+#remove {
+  grid-column-start: 2;
+}
+
+#clear {
+  grid-column-start: 3;
+}
+
+#list-all {
+  grid-column-start: -2;
+  align-self: center;
+}
+
+/*# sourceMappingURL=index.5c1956d7.css.map */
