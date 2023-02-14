@@ -5,7 +5,6 @@ import Chart from 'chart.js/auto'
 //---------------------------------------------------------
 
 const add = document.getElementById('add');
-const remove = document.getElementById('remove');
 const clear = document.getElementById('clear');
 const listAll = document.getElementById('list-all');
 const stage = document.getElementById('stage');
@@ -152,6 +151,12 @@ async function loadPlayer(player) {
 
 	const newNode = document.createElement('div');
 	newNode.setAttribute('class', 'card');
+
+	const xbox = document.createElement('a');
+	xbox.setAttribute('class', 'xbox');
+	xbox.id = player.id;
+	xbox.innerHTML = 'X';
+	newNode.appendChild(xbox);
 	
 	const namePlate = createNamePlate(player);
 	newNode.appendChild(namePlate);
@@ -264,16 +269,6 @@ add.addEventListener('click', () => {
 	}
 });
 
-remove.addEventListener('click', () => {
-	const names = prompt('remove who?').split(' ');
-	for (i = 0; i < list.length; i++) {
-		if ((list[i].first_name.toUpperCase() == names[0].toUpperCase())
-		 && (list[i].last_name.toUpperCase() == names[1].toUpperCase())) {
-			removePlayer(list[i]);
-		}
-	}
-});
-
 clear.addEventListener('click', () => {
 	const max = list.length;
 	for (i = max-1; i >= 0; i--) {
@@ -289,4 +284,11 @@ namesList.addEventListener('click', (e) => {
 
 	loadPlayer(alphaList[e.target.id]);
 	needReset = true;
+});
+
+stage.addEventListener('click', (e) => {
+	console.log('stage click');
+	console.log(e.target.id);
+	const index = list.findIndex( x => x.id == e.target.id);
+	removePlayer(list[index]);
 });
