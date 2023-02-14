@@ -35,6 +35,23 @@ li:hover {
   position: relative;
 }
 
+.xbox {
+  width: 20px;
+  height: 20px;
+  color: gray;
+  text-align: center;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 5px;
+  font-size: 18px;
+}
+
+.xbox:hover {
+  color: red;
+  cursor: pointer;
+  background-color: gray;
+}
+
 .name-plate {
   flex-direction: column;
   justify-content: center;
@@ -98,4 +115,4 @@ li:hover {
   align-self: center;
 }
 
-/*# sourceMappingURL=index.5c1956d7.css.map */
+/*# sourceMappingURL=index.08bd4337.css.map */

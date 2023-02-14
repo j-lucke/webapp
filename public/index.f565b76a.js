@@ -12975,7 +12975,6 @@ var $a2cd264cd732c23b$export$2e2bcd8739ae039 = (0, $3365e949f614b097$export$acaa
 //----------  HTML elements -------------------------------
 //---------------------------------------------------------
 const $3da87ddc4a220fcd$var$add = document.getElementById("add");
-const $3da87ddc4a220fcd$var$remove = document.getElementById("remove");
 const $3da87ddc4a220fcd$var$clear = document.getElementById("clear");
 const $3da87ddc4a220fcd$var$listAll = document.getElementById("list-all");
 const $3da87ddc4a220fcd$var$stage = document.getElementById("stage");
@@ -13105,6 +13104,11 @@ async function $3da87ddc4a220fcd$var$loadPlayer(player) {
     $3da87ddc4a220fcd$var$list.push(player);
     const newNode = document.createElement("div");
     newNode.setAttribute("class", "card");
+    const xbox = document.createElement("a");
+    xbox.setAttribute("class", "xbox");
+    xbox.id = player.id;
+    xbox.innerHTML = "X";
+    newNode.appendChild(xbox);
     const namePlate = $3da87ddc4a220fcd$var$createNamePlate(player);
     newNode.appendChild(namePlate);
     const chart = await $3da87ddc4a220fcd$var$createGraph(player);
@@ -13193,10 +13197,6 @@ add.addEventListener('click', () => {
         $3da87ddc4a220fcd$var$namesList.style.display = "none";
     }
 });
-$3da87ddc4a220fcd$var$remove.addEventListener("click", ()=>{
-    const names = prompt("remove who?").split(" ");
-    for($3da87ddc4a220fcd$var$i = 0; $3da87ddc4a220fcd$var$i < $3da87ddc4a220fcd$var$list.length; $3da87ddc4a220fcd$var$i++)if ($3da87ddc4a220fcd$var$list[$3da87ddc4a220fcd$var$i].first_name.toUpperCase() == names[0].toUpperCase() && $3da87ddc4a220fcd$var$list[$3da87ddc4a220fcd$var$i].last_name.toUpperCase() == names[1].toUpperCase()) $3da87ddc4a220fcd$var$removePlayer($3da87ddc4a220fcd$var$list[$3da87ddc4a220fcd$var$i]);
-});
 $3da87ddc4a220fcd$var$clear.addEventListener("click", ()=>{
     const max = $3da87ddc4a220fcd$var$list.length;
     for($3da87ddc4a220fcd$var$i = max - 1; $3da87ddc4a220fcd$var$i >= 0; $3da87ddc4a220fcd$var$i--){
@@ -13211,6 +13211,12 @@ $3da87ddc4a220fcd$var$namesList.addEventListener("click", (e)=>{
     $3da87ddc4a220fcd$var$loadPlayer($3da87ddc4a220fcd$var$alphaList[e.target.id]);
     needReset = true;
 });
+$3da87ddc4a220fcd$var$stage.addEventListener("click", (e)=>{
+    console.log("stage click");
+    console.log(e.target.id);
+    const index = $3da87ddc4a220fcd$var$list.findIndex((x)=>x.id == e.target.id);
+    $3da87ddc4a220fcd$var$removePlayer($3da87ddc4a220fcd$var$list[index]);
+});
 
 
-//# sourceMappingURL=index.fcaf4d09.js.map
+//# sourceMappingURL=index.f565b76a.js.map
