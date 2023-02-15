@@ -63,7 +63,8 @@ function createNamePlate(myMan){
 	name.innerHTML = `${myMan.first_name} ${myMan.last_name}`
 	const followers = document.createElement('div');
 	followers.setAttribute('class', 'followers');
-	followers.innerHTML = `${myMan.current_count} followers (1st)`;
+	const index = masterList.findIndex(x => x.id == myMan.id);
+	followers.innerHTML = `${myMan.current_count} followers (${printOrdinal(index+1)})`;
 	const handle = document.createElement('a');
 	handle.setAttribute('class', 'handle');
 	handle.innerHTML = myMan.twitter_name;
@@ -181,6 +182,15 @@ function removePlayer(player) {
 	}
 }
 
+function printOrdinal(x){
+	let suffix = 'th';
+	switch (x % 10) {
+		case 1: suffix = 'st'; break;
+		case 2: suffix = 'nd'; break;
+		case 3: suffix = 'rd'; break;
+	}
+	return x + suffix;
+}
 
 //---------------------------------------------------------
 //--------  load master list of players -------------------

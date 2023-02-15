@@ -6,6 +6,12 @@ button {
   align-self: center;
   justify-self: center;
   font-size: 15px;
+  margin-right: 10px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: gray;
 }
 
 ul {
@@ -24,6 +30,11 @@ ul {
 
 li:hover{
   background-color: gray;
+}
+
+#white-space {
+  height: 50px;
+  position: relative;
 }
 
 .card{
@@ -100,17 +111,15 @@ li:hover{
   grid-column-start: -2;
 }
 
-/*
 #nav-bar{
   position: fixed;
   width: 100%;
   height: 50px;
-  background-color: blue;
-  display: grid;
-  grid-template-columns: 100px 100px 100px 1fr 100px;
+  display: flex;
+  flex-direction: row;
   justify-content: start;
+  z-index: 10;
 }
-*/
 
 #add {
   grid-column-start: 1;
