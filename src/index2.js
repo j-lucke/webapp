@@ -145,9 +145,13 @@ async function createFollowersGraph(myMan) {
 	return graph;
 }
 
+async function createMentionsGraph(myMan) {
+	const graph = document.createElement('canvas');
+	return graph;
+}
+
 async function loadPlayer(playerId) {
 	const index =  masterList.findIndex( x => x.id == playerId);
-	console.log(masterList);
 	player = masterList[index];
 
 	const cardsOnDisplay = document.querySelectorAll('.cards');
@@ -169,22 +173,29 @@ async function loadPlayer(playerId) {
 	const namePlate = createNamePlate(player);
 	newNode.appendChild(namePlate);
 
-	const chart = await createFollowersGraph(player);
+	const graphStage = document.createElement('div');
+	graphStage.setAttribute('class', 'graph-stage');
+	newNode.appendChild(graphStage);
+
+	const chart1 = await createFollowersGraph(player);
 	const graphWrapper = document.createElement('div');
 	graphWrapper.setAttribute('class', 'wrapper');
-	graphWrapper.appendChild(chart);
-	newNode.appendChild(graphWrapper);
+	graphWrapper.appendChild(chart1);
+	graphStage.appendChild(graphWrapper);
+
+	const chart2 = await createFollowersGraph(player);
+	const gWrap = document.createElement('div');
+	gWrap.setAttribute('class', 'wrapper');
+	gWrap.appendChild(chart2);
+	graphStage.appendChild(gWrap);
 
 	stage.appendChild(newNode);
 }
 
 function removePlayer(playerId) {
 	const cardsOnDisplay = document.querySelectorAll('.card');
-	console.log(cardsOnDisplay);
 	cardsOnDisplay.forEach( card => {
-		console.log(card.id)
 		if (card.id == 'card-' + playerId) {
-			console.log('match');
 			card.remove();
 		}
 	});

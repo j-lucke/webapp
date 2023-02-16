@@ -44,7 +44,16 @@ li:hover{
   margin: 10px;
   border-radius: 20px;
   width: auto;
+  height: auto;
   position: relative;
+}
+
+.graph-stage {
+  display: flex;
+  flex-direction: column;
+  width: 620px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .xbox {
@@ -73,6 +82,7 @@ li:hover{
 
 .wrapper {
   width: 600px;
+  border: 1px solid red;
 }
 
 .name{
