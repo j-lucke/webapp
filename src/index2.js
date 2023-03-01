@@ -136,7 +136,7 @@ async function createFollowersGraph(myMan) {
 			data: {
 				datasets: [{
 					//label: record.bio.twitter_name,
-					label: record.bio.twitter_name,
+					label: 'followers',
 					data: filterInfo(record.info, 40)
 				}]
 			}
@@ -146,13 +146,37 @@ async function createFollowersGraph(myMan) {
 }
 
 async function createMentionsGraph(myMan) {
-	const graph = document.createElement('canvas');
+	const record = await fetch(`/mentions/id/${myMan.id}`, {
+    	method: 'GET',
+    	headers: {
+        	'Accept': 'application/json',
+   		},
+	})
+	.then(response => response.json());
+
+	const weeklyData = JSON.parse(record.twitter_report)
+	console.log(weeklyData.data.map( x => x.tweet_count))
+
+	const graph = document.createElement('canvas')
+	new Chart(
+		graph,
+		{
+			type: 'bar',
+			data: {
+				labels: weeklyData.data.map(x => x.start.split('T')[0]),
+				datasets: [{
+					label: 'mentions over last week',
+					data: weeklyData.data.map( x => x.tweet_count)
+				}]
+			}
+		}
+	);
 	return graph;
 }
 
 async function loadPlayer(playerId) {
 	const index =  masterList.findIndex( x => x.id == playerId);
-	player = masterList[index];
+	const player = masterList[index];
 
 	const cardsOnDisplay = document.querySelectorAll('.cards');
 	cardsOnDisplay.forEach( card => {
@@ -183,11 +207,11 @@ async function loadPlayer(playerId) {
 	graphWrapper.appendChild(chart1);
 	graphStage.appendChild(graphWrapper);
 
-	const chart2 = await createFollowersGraph(player);
-	const gWrap = document.createElement('div');
-	gWrap.setAttribute('class', 'wrapper');
-	gWrap.appendChild(chart2);
-	graphStage.appendChild(gWrap);
+	const chart2 = await createMentionsGraph(player);
+	const gwrap = document.createElement('div')
+	gwrap.setAttribute('class', 'wrapper')
+	gwrap.appendChild(chart2)
+	graphStage.appendChild(gwrap)
 
 	stage.appendChild(newNode);
 }

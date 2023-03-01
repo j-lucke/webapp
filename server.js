@@ -1,9 +1,13 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const path = require('path');
+const { TwitterApi } = require('twitter-api-v2');
+
 
 if (process.argv[2] == 'x')
   dotenv.config();
+
+const client = new TwitterApi(process.env.TWITTER_KEY);
 
 const knex = require('knex')({
   client: 'pg',
@@ -36,5 +40,13 @@ app.get('/id/:id', (req, res) => {
       res.send(JSON.stringify(record));
     });
 });
+
+app.get('/mentions/id/:id', (req, res) => {
+  knex.select('*')
+    .from('mentions_this_week')
+    .where({id: req.params.id})
+    .then( data => data[0] )
+    .then( (data) => res.send(JSON.stringify(data)) )
+})
 
 app.listen(3000, () => {console.log('listening on 3000...')} );

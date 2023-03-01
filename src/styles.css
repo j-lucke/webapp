@@ -52,7 +52,7 @@ li:hover{
   display: flex;
   flex-direction: column;
   width: 620px;
-  border: 1px solid black;
+
   border-radius: 10px;
 }
 
@@ -82,7 +82,6 @@ li:hover{
 
 .wrapper {
   width: 600px;
-  border: 1px solid red;
 }
 
 .name{
