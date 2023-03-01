@@ -13,6 +13,7 @@ const namesList = document.createElement('ul');
 //------------ global variables ---------------------------
 //---------------------------------------------------------
 
+let i;   //loop counter.  don't ask, cause i don't get it
 let masterList = [];
 let alphaList = [];    
 
