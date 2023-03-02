@@ -4,10 +4,11 @@ import Chart from 'chart.js/auto'
 //----------  HTML elements -------------------------------
 //---------------------------------------------------------
 
-const add = document.getElementById('add');
-const clear = document.getElementById('clear');
-const stage = document.getElementById('stage');
-const namesList = document.createElement('ul');
+const add = document.getElementById('add')
+const clear = document.getElementById('clear')
+const stage = document.getElementById('stage')
+const namesList = document.createElement('ul')
+namesList.setAttribute('class', 'drop-down')
 
 //---------------------------------------------------------
 //------------ global variables ---------------------------
@@ -52,6 +53,12 @@ function filterInfo(data, x) {
 function createNamePlate(myMan){
 	const plate = document.createElement('div');
 	plate.setAttribute('class', 'name-plate');
+
+	const xbox = document.createElement('a');
+	xbox.setAttribute('class', 'xbox');
+	xbox.id = 'xbox-' + myMan.id;
+	xbox.innerHTML = 'X';
+	plate.appendChild(xbox);
 
 
 	const name = document.createElement('div');
@@ -164,7 +171,7 @@ async function createMentionsGraph(myMan) {
 		{
 			type: 'bar',
 			data: {
-				labels: weeklyData.data.map(x => x.start.split('T')[0]),
+				labels: weeklyData.data.map(x => x.start.split('T')[0].substring(5)),
 				datasets: [{
 					label: 'mentions over last week',
 					data: weeklyData.data.map( x => x.tweet_count)
@@ -189,11 +196,7 @@ async function loadPlayer(playerId) {
 	newNode.setAttribute('class', 'card');
 	newNode.id = 'card-' + player.id;
 
-	const xbox = document.createElement('a');
-	xbox.setAttribute('class', 'xbox');
-	xbox.id = 'xbox-' + player.id;
-	xbox.innerHTML = 'X';
-	newNode.appendChild(xbox);
+	
 	
 	const namePlate = createNamePlate(player);
 	newNode.appendChild(namePlate);

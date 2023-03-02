@@ -1,8 +1,37 @@
+body {
+  
+  font-family: sans-serif;
+  background-image: url('stadium2.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  margin-top: 80px;
+}
+
+header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+header * {
+  display: inline;
+}
+
+.drop-down li {
+  display: block;
+}
+
 button {
-  width: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
   height: 30px;
   border-radius: 20px;
-  border: none;
+  border: 1px solid gray;
   align-self: center;
   justify-self: center;
   font-size: 15px;
@@ -14,7 +43,8 @@ button:hover {
   background-color: gray;
 }
 
-ul {
+
+.drop-down{
   width: 200px;
   height: 300px;
   border: 1px solid gray;
@@ -26,32 +56,38 @@ ul {
   position: relative;
   z-index: 9;
   background-color: white;
+  display: block;
+
 }
 
-li:hover{
+.drop-down li:hover{
   background-color: gray;
 }
 
-#white-space {
-  height: 50px;
-  position: relative;
+header img {
+  height: 120px;
+  overflow: visible;
+  align-self: baseline;
+  padding: 10px;
 }
+
+
 
 .card{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border: 3px solid gray;
   margin: 10px;
+  margin-left: 100px;
   border-radius: 20px;
-  width: auto;
-  height: auto;
-  position: relative;
+  background-color: white;
+  width: 550px;
 }
 
 .graph-stage {
   display: flex;
   flex-direction: column;
-  width: 620px;
+  width: 500px;
 
   border-radius: 10px;
 }
@@ -65,6 +101,8 @@ li:hover{
   border: 1px solid gray;
   border-radius: 10px;
   text-align: center;
+  padding: 2px;
+  align-self: center;
 }
 
 .xbox:hover {
@@ -75,20 +113,20 @@ li:hover{
 
 .name-plate {
   display: flex;
-  flex-direction: column;
-  padding: 20px;
-  justify-content: center;
-}
+  flex-direction: row;
+  justify-content: flex-start;
+  align-self: center;
+ }
 
 .wrapper {
-  width: 600px;
+  width: 400px;
+  align-self: center;
 }
 
 .name{
-  font-size: 30px;
+  font-size: 20px;
   padding: 10px;
   align-self: center;
-
 }
 
 .handle{
@@ -103,46 +141,9 @@ li:hover{
   align-self: center;
 }
 
-.centered {
-  position: fixed;
-  top: 15%;
-  left: 90%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-}
-
 #stage {
   display: flex;
-  flex-direction: column;
-}
-
-#full-list {
-  grid-column-start: -2;
-}
-
-#nav-bar{
-  position: fixed;
-  width: 100%;
-  height: 50px;
-  display: flex;
   flex-direction: row;
-  justify-content: start;
-  z-index: 10;
+  flex-wrap: wrap;
 }
 
-#add {
-  grid-column-start: 1;
-}
-
-#remove {
-  grid-column-start: 2;
-}
-
-#clear {
-  grid-column-start: 3;
-}
-
-#list-all {
-  grid-column-start: -2;
-  align-self: center;
-}
