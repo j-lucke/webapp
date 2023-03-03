@@ -118,6 +118,10 @@ header img {
   align-self: center;
  }
 
+.name-plate * {
+  align-self: center;
+}
+
 .wrapper {
   width: 400px;
   align-self: center;

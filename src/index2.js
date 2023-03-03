@@ -50,7 +50,21 @@ function filterInfo(data, x) {
 	return shorterArray;
 }
 
+function USMNTtrackerLink(player){
+	const name = player.first_name + '_' + player.last_name
+	const url = 'https://usmnt-tracker.com/player/' + name.replace(' ', '_')
+	const link = document.createElement('a')
+	link.setAttribute('href', url)
+	link.setAttribute('target', '_blank')
+	const text = document.createTextNode('recent matches')
+	link.appendChild(text)
+	return link
+}
+
 function createNamePlate(myMan){
+
+	USMNTtrackerLink(myMan)
+
 	const plate = document.createElement('div');
 	plate.setAttribute('class', 'name-plate');
 
@@ -65,12 +79,13 @@ function createNamePlate(myMan){
 	name.setAttribute('class', 'name');
 	name.innerHTML = `${myMan.first_name} ${myMan.last_name}`;
 
+	/*
 	const followers = document.createElement('div');
 	followers.setAttribute('class', 'followers');
 
 	const index = masterList.findIndex(x => x.id == myMan.id);
 	followers.innerHTML = `${myMan.current_count} followers (${printOrdinal(index+1)})`;
-
+	*/
 	const handle = document.createElement('a');
 	handle.setAttribute('class', 'handle');
 	handle.innerHTML = myMan.twitter_name;
@@ -78,7 +93,8 @@ function createNamePlate(myMan){
 	handle.setAttribute('target', '_blank');
 
 	plate.appendChild(name);
-	plate.appendChild(followers);
+	//plate.appendChild(followers);
+	plate.appendChild(USMNTtrackerLink(myMan))
 	plate.appendChild(handle);
 	return plate;
 }
