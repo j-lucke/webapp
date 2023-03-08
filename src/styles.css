@@ -127,6 +127,11 @@ header img {
   align-self: center;
 }
 
+.wrapper-top {
+  width: 500px;
+
+}
+
 .name{
   font-size: 20px;
   padding: 10px;

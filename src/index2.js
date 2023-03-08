@@ -6,6 +6,7 @@ import Chart from 'chart.js/auto'
 
 const add = document.getElementById('add')
 const clear = document.getElementById('clear')
+const trending = document.getElementById('trending')
 const stage = document.getElementById('stage')
 const namesList = document.createElement('ul')
 namesList.setAttribute('class', 'drop-down')
@@ -129,6 +130,10 @@ async function cleanRecord(row) {
 	return {bio: player, info: data};
 }
 
+async function trendGraph(){
+
+}
+
 async function createFollowersGraph(myMan) {
 	
 	const record = await fetch(`/id/${myMan.id}`, {
@@ -189,13 +194,29 @@ async function createMentionsGraph(myMan) {
 			data: {
 				labels: weeklyData.data.map(x => x.start.split('T')[0].substring(5)),
 				datasets: [{
-					label: 'mentions over last week',
+					label: 'mentions this week',
 					data: weeklyData.data.map( x => x.tweet_count)
 				}]
 			}
 		}
 	);
 	return graph;
+}
+
+async function loadTopMentions(){
+	const newNode = document.createElement('div');
+	newNode.setAttribute('class', 'card');
+
+	const chart = await getTopMentions()
+		.then(topMentionsGraph)
+
+	const graphWrapper = document.createElement('div');
+	graphWrapper.setAttribute('class', 'wrapper-top');
+
+	graphWrapper.appendChild(chart)
+	newNode.appendChild(graphWrapper)
+	stage.appendChild(newNode)
+
 }
 
 async function loadPlayer(playerId) {
@@ -255,6 +276,42 @@ function printOrdinal(x){
 	return x + suffix;
 }
 
+async function getTopMentions(){
+	const record = await fetch(`/test`, {
+    	method: 'GET',
+    	headers: {
+        	'Accept': 'application/json',
+   		},
+	})
+	.then(response => response.json())
+	return record	
+}
+
+async function topMentionsGraph(records){
+	const graph = document.createElement('canvas')
+
+	const now = new Date()
+  	column = now.toISOString().split('T')[0]  
+
+	new Chart(
+		graph,
+		{
+			type: 'bar',
+			data: {
+				labels: records.map(x => `${x.first_name} ${x.last_name}`),
+				datasets: [{
+					label: 'mentions today',
+					data: records.map( x => x[column])
+				}]
+			},
+			options: {
+				indexAxis: 'y'
+			}
+		}
+	);
+	return graph;
+}
+
 //---------------------------------------------------------
 //--------  load master list of players -------------------
 //---- in order of twitter followers (descending) ---------
@@ -311,6 +368,10 @@ clear.addEventListener('click', () => {
 	cardsOnDisplay.forEach( card => card.remove() );
 });
 
+trending.addEventListener('click', () => {
+	loadTopMentions()
+})
+
 namesList.addEventListener('click', (e) => {
 	const player_id = e.target.id.split('-')[2];
 	loadPlayer(player_id);
@@ -320,3 +381,4 @@ stage.addEventListener('click', (e) => {
 	const player_id = e.target.id.split('-')[1];
 	removePlayer(player_id);
 });
+

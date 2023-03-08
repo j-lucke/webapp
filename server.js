@@ -4,6 +4,7 @@ const path = require('path');
 const { TwitterApi } = require('twitter-api-v2');
 
 
+
 if (process.argv[2] == 'x')
   dotenv.config();
 
@@ -47,6 +48,22 @@ app.get('/mentions/id/:id', (req, res) => {
     .where({id: req.params.id})
     .then( data => data[0] )
     .then( (data) => res.send(JSON.stringify(data)) )
+})
+
+function columnName() {
+  const now = new Date()
+  name = now.toISOString().split('T')[0]  
+  return name;
+}
+
+app.get('/test', (req, res) => {
+  const column = columnName() 
+  console.log(column)
+  knex.select('first_name', 'last_name', column)
+    .from('mentions')
+    .orderBy(column, 'desc', 'last')
+    .limit(10)
+    .then( data => res.send(JSON.stringify(data)))
 })
 
 app.listen(3000, () => {console.log('listening on 3000...')} );
