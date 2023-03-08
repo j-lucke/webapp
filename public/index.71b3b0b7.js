@@ -12976,6 +12976,7 @@ var $a2cd264cd732c23b$export$2e2bcd8739ae039 = (0, $3365e949f614b097$export$acaa
 //---------------------------------------------------------
 const $9255a96f441295c6$var$add = document.getElementById("add");
 const $9255a96f441295c6$var$clear = document.getElementById("clear");
+const $9255a96f441295c6$var$trending = document.getElementById("trending");
 const $9255a96f441295c6$var$stage = document.getElementById("stage");
 const $9255a96f441295c6$var$namesList = document.createElement("ul");
 $9255a96f441295c6$var$namesList.setAttribute("class", "drop-down");
@@ -13081,6 +13082,7 @@ async function $9255a96f441295c6$var$cleanRecord(row) {
         info: data
     };
 }
+async function $9255a96f441295c6$var$trendGraph() {}
 async function $9255a96f441295c6$var$createFollowersGraph(myMan) {
     const record = await fetch(`/id/${myMan.id}`, {
         method: "GET",
@@ -13115,6 +13117,31 @@ async function $9255a96f441295c6$var$createFollowersGraph(myMan) {
     });
     return graph;
 }
+async function $9255a96f441295c6$var$nameDropGraph(player) {
+    console.log(`/mentions/id/${player.id}`);
+    const record = await fetch(`/refs/id/${player.id}`, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }).then((response)=>response.json());
+    const report = JSON.parse(record.report);
+    console.log(report);
+    const graph = document.createElement("canvas");
+    new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
+        type: "line",
+        data: {
+            labels: report.data.map((x)=>x.start.split(/[T:]/)[1] + ":00"),
+            datasets: [
+                {
+                    label: `tweets containing "${player.first_name} ${player.last_name}" over last 24hrs (times UTC)`,
+                    data: report.data.map((x)=>x.tweet_count)
+                }
+            ]
+        }
+    });
+    return graph;
+}
 async function $9255a96f441295c6$var$createMentionsGraph(myMan) {
     const record = await fetch(`/mentions/id/${myMan.id}`, {
         method: "GET",
@@ -13131,13 +13158,46 @@ async function $9255a96f441295c6$var$createMentionsGraph(myMan) {
             labels: weeklyData.data.map((x)=>x.start.split("T")[0].substring(5)),
             datasets: [
                 {
-                    label: "mentions over last week",
+                    label: "mentions this week",
                     data: weeklyData.data.map((x)=>x.tweet_count)
                 }
             ]
         }
     });
     return graph;
+}
+async function $9255a96f441295c6$var$topFollowersGraph(records) {
+    const graph = document.createElement("canvas");
+    new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
+        type: "bar",
+        data: {
+            labels: records.map((x)=>`${x.first_name} ${x.last_name}`),
+            datasets: [
+                {
+                    label: "twitter followers",
+                    data: records.map((x)=>x.current_count)
+                }
+            ]
+        },
+        options: {
+            indexAxis: "y"
+        }
+    });
+    return graph;
+}
+async function $9255a96f441295c6$var$loadTopMentions() {
+    const newNode = document.createElement("div");
+    newNode.setAttribute("class", "card");
+    const chart2 = await $9255a96f441295c6$var$getTopFollowers().then($9255a96f441295c6$var$topFollowersGraph);
+    const chart = await $9255a96f441295c6$var$getTopMentions().then($9255a96f441295c6$var$topMentionsGraph);
+    const graphWrapper = document.createElement("div");
+    graphWrapper.setAttribute("class", "wrapper-top");
+    const graphWrapper2 = document.createElement("div");
+    graphWrapper.setAttribute("class", "wrapper-top");
+    graphWrapper.appendChild(chart2);
+    graphWrapper.appendChild(chart);
+    newNode.appendChild(graphWrapper);
+    $9255a96f441295c6$var$stage.appendChild(newNode);
 }
 async function $9255a96f441295c6$var$loadPlayer(playerId) {
     const index = $9255a96f441295c6$var$masterList.findIndex((x)=>x.id == playerId);
@@ -13164,6 +13224,11 @@ async function $9255a96f441295c6$var$loadPlayer(playerId) {
     gwrap.setAttribute("class", "wrapper");
     gwrap.appendChild(chart2);
     graphStage.appendChild(gwrap);
+    const chart3 = await $9255a96f441295c6$var$nameDropGraph(player);
+    const wrapper3 = document.createElement("div");
+    wrapper3.setAttribute("class", "wrapper");
+    wrapper3.appendChild(chart3);
+    graphStage.appendChild(wrapper3);
     $9255a96f441295c6$var$stage.appendChild(newNode);
 }
 function $9255a96f441295c6$var$removePlayer(playerId) {
@@ -13186,6 +13251,44 @@ function $9255a96f441295c6$var$printOrdinal(x) {
             break;
     }
     return x + suffix;
+}
+async function $9255a96f441295c6$var$getTopMentions() {
+    const record = await fetch(`/test`, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }).then((response)=>response.json());
+    return record;
+}
+async function $9255a96f441295c6$var$topMentionsGraph(records) {
+    const graph = document.createElement("canvas");
+    const now = new Date();
+    column = now.toISOString().split("T")[0];
+    new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
+        type: "bar",
+        data: {
+            labels: records.map((x)=>`${x.first_name} ${x.last_name}`),
+            datasets: [
+                {
+                    label: "mentions today",
+                    data: records.map((x)=>x[column])
+                }
+            ]
+        },
+        options: {
+            indexAxis: "y"
+        }
+    });
+    return graph;
+}
+async function $9255a96f441295c6$var$getTopFollowers() {
+    return fetch(`/followers`, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }).then((response)=>response.json());
 }
 //---------------------------------------------------------
 //--------  load master list of players -------------------
@@ -13230,6 +13333,9 @@ $9255a96f441295c6$var$clear.addEventListener("click", ()=>{
     const cardsOnDisplay = document.querySelectorAll(".card");
     cardsOnDisplay.forEach((card)=>card.remove());
 });
+$9255a96f441295c6$var$trending.addEventListener("click", ()=>{
+    $9255a96f441295c6$var$loadTopMentions();
+});
 $9255a96f441295c6$var$namesList.addEventListener("click", (e)=>{
     const player_id = e.target.id.split("-")[2];
     $9255a96f441295c6$var$loadPlayer(player_id);
@@ -13240,4 +13346,4 @@ $9255a96f441295c6$var$stage.addEventListener("click", (e)=>{
 });
 
 
-//# sourceMappingURL=index.206c2610.js.map
+//# sourceMappingURL=index.71b3b0b7.js.map
