@@ -355,7 +355,7 @@ async function topMentionsGraph(records){
 	const graph = document.createElement('canvas')
 
 	const now = new Date()
-  	column = now.toISOString().split('T')[0]  
+  	const column = now.toISOString().split('T')[0]  
 
 	new Chart(
 		graph,
