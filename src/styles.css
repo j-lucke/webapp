@@ -128,8 +128,8 @@ header img {
 }
 
 .wrapper-top {
-  width: 500px;
-
+  width: 520px;
+  align-self: center;
 }
 
 .name{

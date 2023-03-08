@@ -50,6 +50,14 @@ app.get('/mentions/id/:id', (req, res) => {
     .then( (data) => res.send(JSON.stringify(data)) )
 })
 
+app.get('/refs/id/:id', (req, res) => {
+  knex.select('*')
+    .from('name_drops')
+    .where({id: req.params.id})
+    .then( data => data[0] )
+    .then( (data) => res.send(JSON.stringify(data)) )
+})
+
 function columnName() {
   const now = new Date()
   name = now.toISOString().split('T')[0]  
@@ -62,6 +70,14 @@ app.get('/test', (req, res) => {
   knex.select('first_name', 'last_name', column)
     .from('mentions')
     .orderBy(column, 'desc', 'last')
+    .limit(10)
+    .then( data => res.send(JSON.stringify(data)))
+})
+
+app.get('/followers', (req, res) => {
+  knex.select('first_name', 'last_name', 'current_count')
+    .from('twitter_followers')
+    .orderBy('current_count', 'desc', 'last')
     .limit(10)
     .then( data => res.send(JSON.stringify(data)))
 })

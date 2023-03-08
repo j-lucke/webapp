@@ -174,6 +174,36 @@ async function createFollowersGraph(myMan) {
 	return graph;
 }
 
+async function nameDropGraph(player)
+{
+	console.log(`/mentions/id/${player.id}`)
+	const record = await fetch(`/refs/id/${player.id}`, {
+    	method: 'GET',
+    	headers: {
+        	'Accept': 'application/json',
+   		},
+	})
+	.then(response => response.json());
+
+	const report = JSON.parse(record.report)
+	console.log(report)
+	const graph = document.createElement('canvas')
+	new Chart(
+		graph,
+		{
+			type: 'line',
+			data: {
+				labels: report.data.map( x => x.start.split(/[T:]/)[1] + ':00' ),
+				datasets: [{
+					label: `tweets containing "${player.first_name} ${player.last_name}" over last 24hrs (times UTC)`,
+					data: report.data.map( x => x.tweet_count)
+				}]
+			}
+		}
+	);
+	return graph;
+}
+
 async function createMentionsGraph(myMan) {
 	const record = await fetch(`/mentions/id/${myMan.id}`, {
     	method: 'GET',
@@ -203,16 +233,44 @@ async function createMentionsGraph(myMan) {
 	return graph;
 }
 
+async function topFollowersGraph(records) {
+	const graph = document.createElement('canvas')
+
+	new Chart(
+		graph,
+		{
+			type: 'bar',
+			data: {
+				labels: records.map(x => `${x.first_name} ${x.last_name}`),
+				datasets: [{
+					label: 'twitter followers',
+					data: records.map( x => x.current_count)
+				}]
+			},
+			options: {
+				indexAxis: 'y'
+			}
+		}
+	);
+	return graph;
+}
+
 async function loadTopMentions(){
 	const newNode = document.createElement('div');
 	newNode.setAttribute('class', 'card');
 
+	const chart2 = await getTopFollowers()
+		.then(topFollowersGraph)
 	const chart = await getTopMentions()
 		.then(topMentionsGraph)
 
 	const graphWrapper = document.createElement('div');
 	graphWrapper.setAttribute('class', 'wrapper-top');
 
+	const graphWrapper2 = document.createElement('div')
+	graphWrapper.setAttribute('class', 'wrapper-top')
+
+	graphWrapper.appendChild(chart2)
 	graphWrapper.appendChild(chart)
 	newNode.appendChild(graphWrapper)
 	stage.appendChild(newNode)
@@ -253,6 +311,12 @@ async function loadPlayer(playerId) {
 	gwrap.setAttribute('class', 'wrapper')
 	gwrap.appendChild(chart2)
 	graphStage.appendChild(gwrap)
+
+	const chart3 = await nameDropGraph(player)
+	const wrapper3 = document.createElement('div')
+	wrapper3.setAttribute('class', 'wrapper')
+	wrapper3.appendChild(chart3)
+	graphStage.appendChild(wrapper3)
 
 	stage.appendChild(newNode);
 }
@@ -310,6 +374,16 @@ async function topMentionsGraph(records){
 		}
 	);
 	return graph;
+}
+
+async function getTopFollowers(){
+	return fetch(`/followers`, {
+    	method: 'GET',
+    	headers: {
+        	'Accept': 'application/json',
+   		},
+	})
+	.then(response => response.json())
 }
 
 //---------------------------------------------------------
