@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/master', (req, res) => {
   knex.select('id', 'first_name', 'last_name', 'twitter_name', 'current_count')
-    .from('twitter_followers')
+    .from('twitter_followers_remix')
     .orderBy('current_count', 'desc', 'last')
     .then( (data) => {
       res.send(JSON.stringify(data));
@@ -35,7 +35,7 @@ app.get('/master', (req, res) => {
 
 app.get('/id/:id', (req, res) => {
   knex.select('*')
-    .from('twitter_followers')
+    .from('twitter_followers_remix')
     .where({id: req.params.id})
     .then( (record) => {
       res.send(JSON.stringify(record));
@@ -76,7 +76,7 @@ app.get('/test', (req, res) => {
 
 app.get('/followers', (req, res) => {
   knex.select('first_name', 'last_name', 'current_count')
-    .from('twitter_followers')
+    .from('twitter_followers_remix')
     .orderBy('current_count', 'desc', 'last')
     .limit(10)
     .then( data => res.send(JSON.stringify(data)))

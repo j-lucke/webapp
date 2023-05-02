@@ -12991,7 +12991,7 @@ let $9255a96f441295c6$var$alphaList = [];
 //---------------------------------------------------------
 function $9255a96f441295c6$var$createDate(columnString) {
     const bits = columnString.split("-");
-    return new Date(bits[0], bits[1], bits[2], bits[3]);
+    return new Date(bits[0], bits[1], bits[2]);
 }
 function $9255a96f441295c6$var$daysSinceLaunch(d) {
     const launch = new Date(2023, 0, 26, 23);
@@ -13005,6 +13005,7 @@ function $9255a96f441295c6$var$dateFromLaunch(d) {
     return `${day.getMonth() + 1}-${day.getDate()}`;
 }
 function $9255a96f441295c6$var$filterInfo(data, x) {
+    data.sort((a, b)=>a.x - b.x);
     const dx = data.length / x;
     const shorterArray = [];
     for($9255a96f441295c6$var$i = 0; $9255a96f441295c6$var$i < x; $9255a96f441295c6$var$i++){
@@ -13090,6 +13091,8 @@ async function $9255a96f441295c6$var$createFollowersGraph(myMan) {
             "Accept": "application/json"
         }
     }).then((response)=>response.json()).then($9255a96f441295c6$var$cleanRecord);
+    console.log("!!!!!!!!!!");
+    console.log(record);
     const graph = document.createElement("canvas");
     new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
         type: "line",
@@ -13118,7 +13121,6 @@ async function $9255a96f441295c6$var$createFollowersGraph(myMan) {
     return graph;
 }
 async function $9255a96f441295c6$var$nameDropGraph(player) {
-    console.log(`/mentions/id/${player.id}`);
     const record = await fetch(`/refs/id/${player.id}`, {
         method: "GET",
         headers: {
@@ -13126,7 +13128,6 @@ async function $9255a96f441295c6$var$nameDropGraph(player) {
         }
     }).then((response)=>response.json());
     const report = JSON.parse(record.report);
-    console.log(report);
     const graph = document.createElement("canvas");
     new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
         type: "line",
@@ -13150,7 +13151,6 @@ async function $9255a96f441295c6$var$createMentionsGraph(myMan) {
         }
     }).then((response)=>response.json());
     const weeklyData = JSON.parse(record.twitter_report);
-    console.log(weeklyData.data.map((x)=>x.tweet_count));
     const graph = document.createElement("canvas");
     new (0, $a2cd264cd732c23b$export$2e2bcd8739ae039)(graph, {
         type: "bar",
@@ -13346,4 +13346,4 @@ $9255a96f441295c6$var$stage.addEventListener("click", (e)=>{
 });
 
 
-//# sourceMappingURL=index.cd58b5c9.js.map
+//# sourceMappingURL=index.5e6d1de6.js.map

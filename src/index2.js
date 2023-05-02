@@ -25,7 +25,7 @@ let alphaList = [];
 
 function createDate(columnString) {
 	const bits = columnString.split('-');
-	return new Date(bits[0], bits[1], bits[2], bits[3]);
+	return new Date(bits[0], bits[1], bits[2]);
 }
 
 function daysSinceLaunch(d) {
@@ -42,6 +42,7 @@ function dateFromLaunch(d) {
 }
 
 function filterInfo(data, x) {
+	data.sort((a, b) => a.x - b.x)
 	const dx = data.length / x;
 	const shorterArray = [];
 	for (i = 0; i < x; i++) {
@@ -143,7 +144,10 @@ async function createFollowersGraph(myMan) {
    		},
 	})
 	.then(response => response.json())
-	.then(cleanRecord);
+	.then(cleanRecord)
+
+	console.log('!!!!!!!!!!')
+	console.log(record)
 
 	const graph = document.createElement('canvas');
 	new Chart(
@@ -176,7 +180,6 @@ async function createFollowersGraph(myMan) {
 
 async function nameDropGraph(player)
 {
-	console.log(`/mentions/id/${player.id}`)
 	const record = await fetch(`/refs/id/${player.id}`, {
     	method: 'GET',
     	headers: {
@@ -186,7 +189,6 @@ async function nameDropGraph(player)
 	.then(response => response.json());
 
 	const report = JSON.parse(record.report)
-	console.log(report)
 	const graph = document.createElement('canvas')
 	new Chart(
 		graph,
@@ -214,7 +216,6 @@ async function createMentionsGraph(myMan) {
 	.then(response => response.json());
 
 	const weeklyData = JSON.parse(record.twitter_report)
-	console.log(weeklyData.data.map( x => x.tweet_count))
 
 	const graph = document.createElement('canvas')
 	new Chart(
